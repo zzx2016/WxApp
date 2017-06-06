@@ -5,10 +5,13 @@ import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.wx.einvite.config.QiNiuConfig;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by lx on 2017/6/6.
@@ -33,7 +36,7 @@ public class QiNiuImageHelper {
      */
     public String upload(String localPath, String name) {
         try {
-            logger.debug("普通上传，本地路径为：" + toString() + "\t上传到服务器上文件名:" + name);
+            logger.debug("普通上传，本地路径为：" + localPath + "\t上传到服务器上文件名:" + name);
             Response res = singleton.getUploadManager().put(localPath, name, singleton.getUpToken());
             if (res.isOK()) {
                 JSONObject obj = JSONObject.parseObject(res.bodyString());
@@ -47,6 +50,31 @@ public class QiNiuImageHelper {
             logger.error("图片普通上传失败", e.response.toString());
         }
         return "";
+    }
+    
+    /**
+     * 文件流上传，用于前端直接上传到服务器上
+     * @param file 文件流
+     * @param name	上传到服务器上的名字
+     * @return
+     * @throws IOException	文件流转化成字节数组时抛出异常
+     */
+    public String upload(MultipartFile file,String name) throws IOException{
+    	try {
+    		logger.debug("文件流上传 ,上传到服务器上文件名:" + name);
+    		byte[] byteArr = file.getBytes();
+    		Response res = singleton.getUploadManager().put(byteArr, name, singleton.getUpToken());
+    		if (res.isOK()) {
+                JSONObject obj = JSONObject.parseObject(res.bodyString());
+                obj.put("url", qiniuConfig.getDomain() + name);
+                return obj.toJSONString();
+            }
+            logger.info("返回json解析出错,返回结果是:" + res.toString());
+		} catch (QiniuException e) {
+			 e.printStackTrace();
+	         logger.error("图片普通上传失败", e.response.toString());
+		}
+    	return "";
     }
 
     /**

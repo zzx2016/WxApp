@@ -25,18 +25,18 @@ public class QiNiuTest {
 	@Test
 	public void uploadImage() {
 
-		System.out.println(qiniuHelper.upload("D:/123.png", "qq.jpg"));
+		System.out.println(qiniuHelper.upload("E:/a.jpg", "a.jpg"));
 	}
 
 	@Test
 	public void overlayUpload() {
 
-		System.out.println(qiniuHelper.overlayUpload("E:/c1000/c1000_top_logo.png", "qq.jpg"));
+		System.out.println(qiniuHelper.overlayUpload("E:/b.jpg", "a.jpg"));
 	}
 
 	@Test
 	public void download() {
-		qiniuHelper.download("qq.jpg");
+		System.out.println(qiniuHelper.download("a.jpg"));
 	}
 
 	@Test
