@@ -21,7 +21,7 @@ public class FileUploadController {
 	@ResponseBody
 	public String upload(MultipartFile file) throws IOException{
 		
-		String str = qiNiuImageHelper.upload(file, "test.jpg");
+		String str = qiNiuImageHelper.upload(file, file.getOriginalFilename());
 		return str;
 	}
 
