@@ -2,7 +2,7 @@ spring:
   application:
     name: wx-einvite
 server:
-  port: 8444
+  port: 8443
 qiniu:
   accessKey: jDnQXipsdRsg4_zUmWQxTtWg84odBuHwYWKOda4W
   secretKey: JCJMi6dCtlhySIeLRoHDnvFxlLiiOB_rbvn1_6d1
